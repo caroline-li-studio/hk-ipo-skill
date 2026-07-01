@@ -5,9 +5,9 @@
 An IPO is considered active for an `as_of` date when:
 
 1. `apply_start_date <= as_of`, and
-2. `as_of <= apply_end_date` if `apply_end_date` exists, otherwise `as_of <= min(listing_date, apply_start_date + active_window_days)`.
+2. `as_of <= apply_end_date`.
 
-The default `active_window_days` is 7. This is a pragmatic fallback because the enriched local dataset often has `apply_start_date` and `listing_date` but not application close dates.
+Confirm application dates from live or archived web sources fetched during the current invocation. Do not infer an active window from listing date alone.
 
 ## LLM Scoring Rubric
 
@@ -17,9 +17,9 @@ Assign the final 0-100 score manually from extracted evidence:
 - Allocation practicality, 15 points: one-lot success rate, entry fee, and whether a retail subscriber has a realistic allocation chance.
 - Deal quality, 20 points: sponsor quality, industry, cornerstone information, issue size, valuation clues, and pricing range.
 - Market/listing signal, 20 points: gray market data, first-day data if already known, recent HK IPO sentiment, and days to listing.
-- Data confidence, 15 points: completeness and source quality. Penalize heavily when key facts are missing.
+- Data confidence, 15 points: completeness, source quality, and cross-source agreement. Penalize heavily when key facts are missing or only one source confirms the window.
 
-Use `deterministic_priority` only as a sorting hint. It is not the final score.
+For a past-date analysis, avoid using post-date trading outcomes unless the user explicitly requests a hindsight review.
 
 ## Rating Bands
 

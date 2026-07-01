@@ -1,4 +1,4 @@
 interface:
   display_name: "HK IPO Skill"
-  short_description: "港股打新筛选、评分与分析工具"
-  default_prompt: "Use $hk-ipo-skill to list and score Hong Kong IPOs available to subscribe on a specific date."
+  short_description: "实时多源港股打新筛选、评分与分析"
+  default_prompt: "Use $hk-ipo-skill to fetch live sources, cross-check them, and score Hong Kong IPOs available to subscribe on a specific date."

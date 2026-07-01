@@ -1,6 +1,6 @@
 ---
 name: hk-ipo-skill
-description: Analyze Hong Kong IPO subscription opportunities. Use when Codex needs to list Hong Kong stocks available for retail IPO subscription at a specific date or time, score each active IPO, rank 港股打新 candidates, explain IPO scoring factors, or inspect the local HK IPO prediction project derived from /Users/jialu/Documents/Codex/HK IPO.
+description: Analyze Hong Kong IPO subscription opportunities from live sources. Use when Codex needs to fetch and cross-check current or date-specific Hong Kong IPO retail subscription windows, list stocks available for 港股打新, score each active IPO, rank candidates, or explain IPO scoring factors.
 ---
 
 # HK IPO Skill
@@ -13,49 +13,25 @@ Use this skill to answer questions such as:
 
 ## Quick Start
 
-For current or date-specific IPO availability, use live web sources first. Search and open the source pages listed in [references/data_sources.md](references/data_sources.md), then use the scoring rubric to reason over the evidence.
+For current or date-specific IPO availability, always fetch live web sources for this invocation. Search and open the source pages listed in [references/data_sources.md](references/data_sources.md), cross-check at least two independent sources for each active IPO when possible, then use the scoring rubric to reason over the evidence.
 
-Use the bundled evidence extractor only as a local cache fallback or for historical smoke tests:
-
-```bash
-python ~/.codex/skills/hk-ipo-skill/scripts/score_active_ipos.py --as-of YYYY-MM-DD --format markdown
-```
-
-Use `--format json` when the result should feed another tool. Use `--top N` to limit output.
-
-The script reads the local HK IPO project from `HK_IPO_PROJECT` when set; otherwise it tries:
-
-1. `/Users/jialu/Documents/Codex/HK IPO`
-2. `/Users/jialu/Documents/Code/HK IPO`
-3. the current working directory
+Do not use local CSV files, cached datasets, legacy model artifacts, or previous run outputs as a substitute for live source checks.
 
 ## Workflow
 
-1. Parse the user's date/time. If absent, use the current local date.
-2. Query live sources first: AASTOCKS IPO, ETNet IPO calendar/info, Futu/Moomoo IPO pages, CNYES/财华/券商 IPO calendars, and issuer/prospectus pages when needed.
-3. Determine active retail-subscription candidates from live application/open/close dates. Treat listing-only rows as not sufficient unless application dates show the date falls inside the subscription window.
-4. Use the rubric in [references/scoring.md](references/scoring.md) to assign final 0-100 scores, ratings, and explanations yourself.
-5. Summarize in Chinese unless the user asks otherwise.
-6. Keep the investment language cautious: this is a打新辅助评分, not financial advice.
-7. Use `score_active_ipos.py` only if live sources are unavailable or as a cache sanity check. If live and local cache disagree, prefer live sources and mention the conflict.
-
-## Scoring Semantics
-
-The script produces evidence fields, not final investment decisions:
-
-- `evidence_quality`: rough completeness band.
-- `deterministic_priority`: sorting hint only, useful for table order.
-- `evidence_drivers`: extracted quantitative facts.
-- `risk_notes`: missing-data warnings.
-
-Codex should provide the final `score` and `rating` using reasoning over the evidence, not by copying `deterministic_priority`.
+1. Parse the user's date/time. If absent, use the current Hong Kong date.
+2. Fetch live or archived web pages during the current run: AASTOCKS IPO, ETNet IPO calendar/info, Futu/Moomoo IPO pages, CNYES/财华/券商 IPO calendars, and issuer/prospectus pages when needed.
+3. Cross-check candidates across multiple sources. For each IPO, confirm stock code, company name, application start date, application close date, listing date, and key offer terms where available.
+4. Determine active retail-subscription candidates only from confirmed application windows. Listing-only rows are not enough.
+5. Use the rubric in [references/scoring.md](references/scoring.md) to assign final 0-100 scores, ratings, and explanations yourself.
+6. Summarize in Chinese unless the user asks otherwise.
+7. Cite the live sources used and call out conflicts or missing fields explicitly.
+8. Keep the investment language cautious: this is a打新辅助评分, not financial advice.
 
 Read [references/scoring.md](references/scoring.md) before changing weights or interpreting edge cases.
 
 ## Data Notes
 
-The source project was committed and pushed to `https://github.com/caroline-li-studio/hk-ipo` before this skill was created. It contains the original pipeline and local artifacts used by this skill.
+This skill intentionally carries no historical IPO datasets. Every availability answer must be rebuilt from sources fetched during the current invocation.
 
-The local scorer prefers `data/processed/ipo_clean_enriched.csv` because it contains historical and upcoming IPO rows with `apply_start_date`, but local processed files are stale by nature. Never use local data as the only source for a live/date-specific availability answer when web access is available.
-
-Use [references/data_sources.md](references/data_sources.md) when explaining provenance or limitations.
+Use [references/data_sources.md](references/data_sources.md) when explaining provenance, cross-check rules, or source limitations.
