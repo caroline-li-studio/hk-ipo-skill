@@ -1,6 +1,19 @@
 # Data Sources And Limitations
 
-## Local Project
+## Live Sources First
+
+Use live sources before local cache for any question about "today", a specific date, current subscriptions, or whether an IPO can be subscribed:
+
+- AASTOCKS IPO main page: `https://www.aastocks.com/sc/stocks/market/ipo/mainpage.aspx`
+- ETNet IPO calendar/info: `https://www.etnet.com.hk/www/tc/stocks/ipo-calendar.php` and `https://www.etnet.com.hk/www/tc/stocks/ipo-info.php`
+- Futu/Moomoo HK IPO pages: `https://www.moomoo.com/hans/quote/hk/ipo?from=futunn` and related issuer pages
+- CNYES HK IPO: `https://www.cnyes.com/hkstock/ipo`
+- Hong Kong broker IPO calendars such as 新質證券 and 耀才/財華 pages when search finds them
+- HKEX listing documents or the prospectus when issue details need confirmation
+
+The key fields to extract are stock code, company name, application start date, application close date, listing date, offer price/range, lot size or entry fee, sponsor, industry, and public subscription/margin/lottery details when available.
+
+## Local Project Fallback
 
 Default project path:
 
@@ -26,4 +39,5 @@ The project has been pushed to:
 - Some source systems disagree on stock code formatting. Normalize codes to five digits plus `.HK` where possible.
 - `apply_end_date` is often unavailable. The scorer estimates the active window from `apply_start_date` and `listing_date`.
 - Current local data may not include IPOs announced after the latest collection run.
+- Local processed data is only a fallback/cache. Prefer live sources for date-specific availability.
 - Backtests show stronger signal for some T2 classification tasks than for early-stage return regression. The skill should be LLM-first: extract evidence deterministically, then let Codex reason with the scoring rubric.

@@ -13,7 +13,9 @@ Use this skill to answer questions such as:
 
 ## Quick Start
 
-Run the bundled evidence extractor first:
+For current or date-specific IPO availability, use live web sources first. Search and open the source pages listed in [references/data_sources.md](references/data_sources.md), then use the scoring rubric to reason over the evidence.
+
+Use the bundled evidence extractor only as a local cache fallback or for historical smoke tests:
 
 ```bash
 python ~/.codex/skills/hk-ipo-skill/scripts/score_active_ipos.py --as-of YYYY-MM-DD --format markdown
@@ -30,11 +32,12 @@ The script reads the local HK IPO project from `HK_IPO_PROJECT` when set; otherw
 ## Workflow
 
 1. Parse the user's date/time. If absent, use the current local date.
-2. Run `score_active_ipos.py --as-of <date> --format markdown` to extract active IPOs and evidence.
-3. Use the rubric in [references/scoring.md](references/scoring.md) to assign final 0-100 scores, ratings, and explanations yourself.
-4. Summarize in Chinese unless the user asks otherwise.
-5. Keep the investment language cautious: this is a打新辅助评分, not financial advice.
-6. If no active IPOs are found, report that the available local dataset has no matching active subscription windows for that date.
+2. Query live sources first: AASTOCKS IPO, ETNet IPO calendar/info, Futu/Moomoo IPO pages, CNYES/财华/券商 IPO calendars, and issuer/prospectus pages when needed.
+3. Determine active retail-subscription candidates from live application/open/close dates. Treat listing-only rows as not sufficient unless application dates show the date falls inside the subscription window.
+4. Use the rubric in [references/scoring.md](references/scoring.md) to assign final 0-100 scores, ratings, and explanations yourself.
+5. Summarize in Chinese unless the user asks otherwise.
+6. Keep the investment language cautious: this is a打新辅助评分, not financial advice.
+7. Use `score_active_ipos.py` only if live sources are unavailable or as a cache sanity check. If live and local cache disagree, prefer live sources and mention the conflict.
 
 ## Scoring Semantics
 
@@ -53,6 +56,6 @@ Read [references/scoring.md](references/scoring.md) before changing weights or i
 
 The source project was committed and pushed to `https://github.com/caroline-li-studio/hk-ipo` before this skill was created. It contains the original pipeline and local artifacts used by this skill.
 
-The scorer prefers `data/processed/ipo_clean_enriched.csv` because it contains historical and upcoming IPO rows with `apply_start_date`. The old prediction pipeline's `ipo_deals.csv` may have blank application dates, so do not rely on it alone for "currently available to subscribe" filtering.
+The local scorer prefers `data/processed/ipo_clean_enriched.csv` because it contains historical and upcoming IPO rows with `apply_start_date`, but local processed files are stale by nature. Never use local data as the only source for a live/date-specific availability answer when web access is available.
 
 Use [references/data_sources.md](references/data_sources.md) when explaining provenance or limitations.
