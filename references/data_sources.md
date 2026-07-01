@@ -17,16 +17,19 @@ Use a mix of exchange/issuer, financial portals, and broker calendars:
 - Hong Kong broker IPO calendars such as 新質證券 and 耀才/財華 pages when search finds them
 - HKEX listing documents or the prospectus when issue details need confirmation
 
-The key fields to extract are stock code, company name, application start date, application close date, listing date, offer price/range, lot size or entry fee, sponsor, industry, and public subscription/margin/lottery details when available.
+The key fields to extract are stock code, company name, application start date, application close date, listing date, offer price/range, lot size or entry fee, sponsor, industry, public subscription multiple, margin/孖展 subscription amount and multiple, applicant count, one-lot success rate, broker predicted allocation, and final allotment details when relevant.
 
 ## Conflict Handling
 
 - If sources disagree on dates, prefer issuer/prospectus/HKEX documents, then exchange-style IPO calendars, then financial portals, then broker calendars.
 - If a candidate appears on a listing calendar but no application dates can be confirmed, do not count it as "available to subscribe"; list it separately as unconfirmed if relevant.
 - If the user's date is in the past, use archived/current pages and contemporaneous news to reconstruct the subscription window, but score from information that would reasonably have been available on that date unless the user asks for hindsight.
+- Distinguish "as-of-date" demand metrics from final allotment results. For example, a margin multiple reported during the offer period is contemporaneous evidence; a final public subscription multiple or one-lot rate published after close is hindsight unless the user explicitly requests it.
+- For backtests, fetch actual outcomes only after they have occurred: dark-pool/gray-market close, listing-day open, listing-day close, and first-day percentage changes versus offer price. Do not backtest future or not-yet-listed IPOs.
 
 ## Known Limitations
 
 - Some source systems disagree on stock code formatting. Normalize codes to five digits plus `.HK` where possible.
 - Some pages update after listing and may hide old subscription details; use dated news articles or prospectus files to reconstruct past windows.
 - Broker pages may include financing deadlines that differ from public offer close times. Distinguish broker financing cutoff from the official retail application close date.
+- Broker predicted allocation statistics are model estimates, not official allotment results. Label them clearly.
