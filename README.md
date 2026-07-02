@@ -1,4 +1,4 @@
-# 港股打新skill hk ipo skill
+# 港股打新skill （hk ipo skill）
 
 ![港股打新skill](assets/hero.png)
 
