@@ -17,7 +17,9 @@ Use a mix of exchange/issuer, financial portals, and broker calendars:
 - Hong Kong broker IPO calendars such as 新質證券 and 耀才/財華 pages when search finds them
 - HKEX listing documents or the prospectus when issue details need confirmation
 
-The key fields to extract are stock code, company name, application start date, application close date, listing date, offer price/range, lot size or entry fee, sponsor, industry, public subscription multiple, margin/孖展 subscription amount and multiple, applicant count, one-lot success rate, broker predicted allocation, and final allotment details when relevant.
+The key fields to extract are stock code, company name, application start date, application close date, listing date, offer price/range, lot size or entry fee, sponsor, industry, public subscription multiple, margin/孖展 subscription amount and multiple, applicant count, one-lot success rate, broker predicted allocation, final allotment details when relevant, and the subscription day number for the user's as-of date.
+
+When available, collect a heat curve rather than one snapshot: first-day margin, latest margin before the user's time, final margin/public subscription multiple, and whether demand accelerated or faded.
 
 ## Conflict Handling
 

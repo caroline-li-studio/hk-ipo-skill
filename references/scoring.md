@@ -13,13 +13,24 @@ Confirm application dates from live or archived web sources fetched during the c
 
 Assign the final 0-100 score manually from extracted evidence:
 
-- Demand / heat, 30 points: public subscription multiple, margin/孖展 multiple, subscriber count, and market attention. Strong positive when demand is high but not obviously overheated.
+- Demand / heat, 30 points: public subscription multiple, margin/孖展 multiple, subscriber count, and market attention. Strong positive when demand is high but not obviously overheated. Do not rank by a single day's margin multiple alone.
 - Allocation practicality, 15 points: one-lot success rate, broker predicted allocation, entry fee, and whether a retail subscriber has a realistic allocation chance.
-- Deal quality, 20 points: sponsor quality, industry, cornerstone information, issue size, valuation clues, and pricing range.
+- Deal quality, 20 points: sponsor quality, industry, profitability or commercialization status, cornerstone information, issue size, valuation clues, pricing range, and whether the business story is likely to convert into trading demand.
 - Market/listing signal, 20 points: gray market data, first-day data if already known, recent HK IPO sentiment, and days to listing.
 - Data confidence, 15 points: completeness, source quality, and cross-source agreement. Penalize heavily when key facts are missing or only one source confirms the window.
 
 For a past-date analysis, avoid using post-date trading outcomes unless the user explicitly requests a hindsight review.
+
+## Heat Curve Adjustments
+
+Apply these corrections before final ranking:
+
+- Early-offer adjustment: if the as-of date is day 1 of subscription, treat margin/孖展 multiple as immature. Do not penalize a stock heavily for low first-day margin if deal quality, sponsor quality, low entry fee, or market theme are strong. Label the heat as `首日未充分发酵`.
+- Mature-offer adjustment: if the as-of date is near the final subscription day, margin/孖展 multiple is more reliable and should carry more weight.
+- Overheated narrative discount: high margin plus a fashionable theme is not enough. Discount stocks where the heat is mostly narrative-driven and there is weak evidence of profitability, valuation support, cornerstone quality, or broad aftermarket buyer demand.
+- Underappreciated quality boost: raise stocks with moderate heat but stronger fundamentals, lower valuation pressure, or clearer profit visibility because they may outperform hotter narrative names in dark-pool/open trading.
+- Same-day comparison rule: compare IPOs at similar subscription stages when possible. If candidates are at different stages, explicitly adjust for days since application opened.
+- Backtest learning: the 2026-05-20 case showed that a first-day IPO such as 创想三维 can be understated by early margin data, while a hot semiconductor narrative such as 云英谷科技 can be overstated if aftermarket conversion evidence is weak.
 
 ## Rating Bands
 

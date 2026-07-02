@@ -23,7 +23,7 @@ Do not use local CSV files, cached datasets, legacy model artifacts, or previous
 2. Fetch live or archived web pages during the current run: AASTOCKS IPO, ETNet IPO calendar/info, Futu/Moomoo IPO pages, CNYES/财华/券商 IPO calendars, and issuer/prospectus pages when needed.
 3. Cross-check candidates across multiple sources. For each IPO, confirm stock code, company name, application start date, application close date, listing date, key offer terms, and demand/allocation difficulty metrics where available.
 4. Determine active retail-subscription candidates only from confirmed application windows. Listing-only rows are not enough.
-5. Extract the best available "当时" demand evidence: public subscription multiple, margin/孖展 multiple or amount, applicant count, one-lot success rate, broker predicted allocation, or final allotment only if the user asks for hindsight.
+5. Extract the best available "当时" demand evidence: subscription day number, public subscription multiple, margin/孖展 multiple or amount, demand acceleration, applicant count, one-lot success rate, broker predicted allocation, or final allotment only if the user asks for hindsight.
 6. Use the rubric in [references/scoring.md](references/scoring.md) to assign final 0-100 scores, ratings, and explanations yourself.
 7. Summarize in Chinese unless the user asks otherwise.
 8. Cite the live sources used and call out conflicts or missing fields explicitly.
